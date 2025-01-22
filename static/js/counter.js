@@ -51,4 +51,9 @@ function setConnectionStatus() {
     // once server counter is initialized with data from server
     // set div with id connectionStatus text content to "Connected" 
     // and color to green
+        let connection_ID = document.getElementById('connectionStatus');
+        connection_ID.textContent = 'Connected';
+        connection_ID.style.color = 'green';
 }
+
+setConnectionStatus();

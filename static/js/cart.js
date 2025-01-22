@@ -12,16 +12,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Initialize price (with bug!)
     async function initializePrice() {
-        logDebug('Starting price initialization...');
-        
-        // Bug: 
-        response = fetch('/api/price?')
-        data = response.json()
-        productPrice = data.price
-        document.getElementById('product-price').textContent = productPrice.toFixed(2);
-        logDebug(`Price initialized to: $${productPrice}`);
-        updateTotal();
-        logDebug('Price initialization function completed');
+        try {
+            logDebug('Starting price initialization...');
+            
+            // Bug: 
+            const response = await fetch('/api/price');
+            const data = await response.json();
+            productPrice = data.price;
+            document.getElementById('product-price').textContent = productPrice.toFixed(2);
+            logDebug(`Price initialized to: $${productPrice}`);
+            logDebug('Price initialization function completed');
+            updateTotal();
+        } catch (error) {
+            console.error('Error initializing price:', error);
+        }
     }
 
     function increaseQuantity() {
@@ -51,6 +55,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Initialize the page
     logDebug('Page initialization started');
+    document.getElementById('increase-btn').addEventListener('click', increaseQuantity);
+    document.getElementById('decrease-btn').addEventListener('click', decreaseQuantity);
+
     initializePrice();
     updateDisplay();
 });
